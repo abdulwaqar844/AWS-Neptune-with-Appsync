@@ -46,6 +46,7 @@ export async function createPost(post: Post) {
         g = createGraphTraversalSource(conn);
     }
     return doQuery(post)
+    
 
 }
 // const DriverRemoteConnection = gremlin.driver.DriverRemoteConnection
