@@ -68,7 +68,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       availabilityZone: vpc.availabilityZones[0],
     });
     neptuneInstance.addDependsOn(neptuneCluster);
-
     // add this code after the VPC code
     const lambdaFn = new lambda.Function(this, "Lambda", {
       runtime: lambda.Runtime.NODEJS_10_X,
@@ -94,9 +93,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       typeName: "Mutation",
       fieldName: "createPost"
     })
-
-    //https://github.com/aws-samples/aws-dbs-refarch-graph/tree/master/src/accessing-from-aws-lambda
-    //We will review this link and update our code latter to put the lambda outside the VPC
 
     new cdk.CfnOutput(this, "Neptune Endpoint", {
       value: neptuneCluster.attrEndpoint
