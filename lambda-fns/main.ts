@@ -1,8 +1,5 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import {driver, process as gprocess, structure} from 'gremlin';
-import * as async from 'async';
-import {createPost} from './createPost';
-import {listPosts} from './listPosts';
+import createPost from './createPost';
+import listPosts from './listPosts';
 import Post from './Post';
 
 type AppSyncEvent = {
