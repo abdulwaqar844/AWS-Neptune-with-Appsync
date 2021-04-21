@@ -14,11 +14,9 @@ type AppSyncEvent = {
 exports.handler = async (event:AppSyncEvent) => {
   switch (event.info.fieldName) {
     case "createPost":
-      return  console.log('Event Recieved',event)
-      //await createPost(event.arguments.post);
+      return        await createPost(event.arguments.post);
     case "listPosts":
-      return console.log('Event Recieved',event)
-      //await listPosts();
+      return await listPosts();
     default:
       return null;
   }

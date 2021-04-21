@@ -21,7 +21,6 @@ const listPosts = async () => {
       }
                 
       dc.close()
-      console.log(posts)
       return posts
     } catch (err) {
         console.log('ERROR', err)
