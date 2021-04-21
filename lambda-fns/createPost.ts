@@ -1,17 +1,46 @@
-const gremlin = require('gremlin')
-const DriverRemoteConnection = gremlin.driver.DriverRemoteConnection
-const Graph = gremlin.structure.Graph
-var uri = process.env.NEPTUNE_ENDPOINT
+import { driver, process as gprocess } from 'gremlin';
 import Post from './Post';
-export default async function createPost(post: Post) {
-    let dc = new DriverRemoteConnection(`wss://${uri}:8182/gremlin`, {})
-    const graph = new Graph()
-      const g = graph.traversal().withRemote(dc)
+declare var process: {
+    env: {
+        NEPTUNE_ENDPOINT: string
+    }
+}
 
-    let result = await g.addV('posts').property('title', post.title).property('content', post.content).next();
+
+export default async function createPost(post: Post) {
+    let conn: driver.DriverRemoteConnection;
+    let g: gprocess.GraphTraversalSource;
+    const getConnectionDetails = () => {
+        const database_url = 'wss://' + process.env.NEPTUNE_ENDPOINT + ':8182/gremlin';
+        return { url: database_url, headers: {} };
+    };
+
+    const createRemoteConnection = () => {
+        const { url, headers } = getConnectionDetails();
+
+        return new driver.DriverRemoteConnection(
+            url,
+            {
+                mimeType: 'application/vnd.gremlin-v2.0+json',
+                pingEnabled: false,
+                headers: headers
+            });
+    };
+
+
+    const createGraphTraversalSource = (conn: driver.DriverRemoteConnection) => {
+        return gprocess.traversal().withRemote(conn);
+    };
+    if (conn == null) {
+        conn = createRemoteConnection();
+        g = createGraphTraversalSource(conn);
+    }
+
+
+    let result = await g.addV('posts').property('id', post.id).property('title', post.title).property('content', post.content).next();
     console.log('Post', post, 'Result', result);
     post.id = result.value.id
-    return post;
+    return post
     
 
     
