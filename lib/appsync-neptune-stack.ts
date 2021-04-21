@@ -38,7 +38,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       securityGroupName: "mySecurityGroup",
     });
     cdk.Tags.of(sg1).add("Name", "mySecurityGroup");
-
     sg1.addIngressRule(sg1, ec2.Port.tcp(8182), "MyRule");
 
     const neptuneSubnet = new neptune.CfnDBSubnetGroup(
@@ -61,7 +60,7 @@ export class AppsyncNeptuneStack extends cdk.Stack {
     neptuneCluster.addDependsOn(neptuneSubnet);
 
 
-    // Creating neptune instance
+    // // Creating neptune instance
     const neptuneInstance = new neptune.CfnDBInstance(this, "myinstance", {
       dbInstanceClass: "db.t3.medium",
       dbClusterIdentifier: neptuneCluster.dbClusterIdentifier,
@@ -93,7 +92,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       typeName: "Mutation",
       fieldName: "createPost"
     })
-
     new cdk.CfnOutput(this, "Neptune Endpoint", {
       value: neptuneCluster.attrEndpoint
     }
