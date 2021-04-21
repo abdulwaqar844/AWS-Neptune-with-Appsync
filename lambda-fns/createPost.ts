@@ -1,4 +1,4 @@
-import { driver, process as gprocess, structure } from 'gremlin';
+import { driver, process as gprocess } from 'gremlin';
 import Post from './Post';
 declare var process: {
     env: {
