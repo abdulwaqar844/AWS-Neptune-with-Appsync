@@ -1,24 +1,48 @@
-type Post {
-  id: ID!
-  title: String!
-  content: String!
+type Person{
+  id:ID
+	PersonName: String!
+	Email: String!
+	PersonCity: String!
+}
+type Review{
+	StarRating: String!
+	ReviewText: String!
+	ReviewDate: String!
+}
+type Restaurant{
+	RestaurantName: String!
+	RestaurantCity: String!
+}
+type Cuisine{
+	CuisineID: String!
+	CuisineName: String!
+}
+type Query{
+	ListPersons: [Person]
+	PersonFriends(PersonID: String!	): [Person]
+	FriendofFriends(		PersonID: String!	): [Person]
+	RestaurantWithSpecificCuisine(PersonID: String!,CuisineName:String!	): Restaurant!
+    RestaurantNearMeHiehestRated(	PersonID: String!): [Restaurant!]
+    LatestReview(RestaurantID:String):[Review]
+}
+input PersonInput {
+	PersonName: String!
+	Email: String!
+	PersonID: String!
+	PersonCity: String!
 }
 
-input PostInput {
-  id: ID
-  title: String!
-  content: String!
-}
-
-type Query {
-  listPosts: [Post]
+input ReviewInput {
+	PersonName: String!
+	Email: String!
+	PersonID: String!
+	PersonCity: String!
 }
 
 type Mutation {
-  createPost(post: PostInput!): Post
+addFriend(Person1ID:String , Person2ID:String):String
+  createPerson(person: PersonInput!): Person
+  createReview(review:ReviewInput!):Review
+
 }
 
-type Subscription {
-  onCreatePost: Post
-    @aws_subscribe(mutations: ["createPost"])
-}

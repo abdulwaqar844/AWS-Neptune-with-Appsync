@@ -3,7 +3,6 @@ import * as appsync from '@aws-cdk/aws-appsync';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as neptune from '@aws-cdk/aws-neptune';
-
 export class AppsyncNeptuneStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -17,7 +16,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
         },
       },
     })
-
     // The code that defines your stack goes here
     const vpc = new ec2.Vpc(this, "Vpc", {
       subnetConfiguration: [
@@ -28,8 +26,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
         }
       ]
     });
-
-
     // Create a security group and subnetgroup to ensure lambda and neptune cluster deploy on the same vpc
     const sg1 = new ec2.SecurityGroup(this, "mySecurityGroup1", {
       vpc,
@@ -58,8 +54,6 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       vpcSecurityGroupIds: [sg1.securityGroupId],
     });
     neptuneCluster.addDependsOn(neptuneSubnet);
-
-
     // // Creating neptune instance
     const neptuneInstance = new neptune.CfnDBInstance(this, "myinstance", {
       dbInstanceClass: "db.t3.medium",
@@ -86,20 +80,23 @@ export class AppsyncNeptuneStack extends cdk.Stack {
 
     lambdaDs.createResolver({
       typeName: "Query",
-      fieldName: "listPosts"
+      fieldName: "PersonFriends"
+    })
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "ListPersons"
     })
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "createPost"
+      fieldName: "createPerson"
+    })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "addFriend"
     })
     new cdk.CfnOutput(this, "Neptune Endpoint", {
       value: neptuneCluster.attrEndpoint
     }
     )
-
-
-
-
-
   }
 }

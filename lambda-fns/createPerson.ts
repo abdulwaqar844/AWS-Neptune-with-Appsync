@@ -1,13 +1,11 @@
 import { driver, process as gprocess } from 'gremlin';
-import Post from './Post';
+import Person from './Person';
 declare var process: {
     env: {
         NEPTUNE_ENDPOINT: string
     }
 }
-
-
-export default async function createPost(post: Post) {
+export default async function createPerson(person: Person) {
     let conn: driver.DriverRemoteConnection;
     let g: gprocess.GraphTraversalSource;
     const getConnectionDetails = () => {
@@ -27,7 +25,6 @@ export default async function createPost(post: Post) {
             });
     };
 
-
     const createGraphTraversalSource = (conn: driver.DriverRemoteConnection) => {
         return gprocess.traversal().withRemote(conn);
     };
@@ -35,12 +32,13 @@ export default async function createPost(post: Post) {
         conn = createRemoteConnection();
         g = createGraphTraversalSource(conn);
     }
-
-
-    let result = await g.addV('posts').property('id', post.id).property('title', post.title).property('content', post.content).next();
-    console.log('Post', post, 'Result', result);
-    post.id = result.value.id
-    return post
+    let result = await g.addV('person').
+    property('PersonName', person.PersonName).
+    property('Email', person.Email).
+    property('PersonCity', person.PersonCity).
+    next();
+    person.id = result.value.id
+    return person
     
 
     

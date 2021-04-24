@@ -1,74 +1,30 @@
-import createPost from './createPost';
-import listPosts from './listPosts';
-import Post from './Post';
-
+import addFriend from './addFriend';
+import createPerson from './createPerson';
+import listFriends from './listFriends';
+import ListPersons from './ListPersons';
+import Person from './Person';
 type AppSyncEvent = {
   info: {
     fieldName: string
   },
   arguments: {
-    post: Post
+    person: Person
+    PersonID: string
+    Person1ID: string
+    Person2ID: string
   }
 }
-
-exports.handler = async (event:AppSyncEvent) => {
+exports.handler = async (event: AppSyncEvent) => {
   switch (event.info.fieldName) {
-    case "createPost":
-      return        await createPost(event.arguments.post);
-    case "listPosts":
-      return await listPosts();
+    case "addFriend":
+      return await addFriend(event.arguments.Person1ID, event.arguments.Person2ID);
+    case "ListPersons":
+      return await ListPersons();
+    case "createPerson":
+      return await createPerson(event.arguments.person);
+    case "PersonFriends":
+      return await listFriends(event.arguments.PersonID);
     default:
       return null;
   }
 }
-// 
-// let conn: driver.DriverRemoteConnection;
-// let g: gprocess.GraphTraversalSource;
-
-// async function query() {
-//     return g.addV('Post').property('Name','First Post').next()
-// }
-// async function doQuery() {
-//     let result = await query(); 
-//     console.log('Record added',result)
-//     return {
-//         statusCode: 200,
-//         headers: { "Content-Type": "text/plain" },
-//         body: result["value"],
-//       };
-// }
-
-// export async function handler(post: Post) {
-//     const getConnectionDetails = () => {
-//         const database_url = 'wss://' + process.env.NEPTUNE_ENDPOINT + ':8182/gremlin';
-//         return { url: database_url, headers: {}};
-//     };
-
-//     const createRemoteConnection = () => {
-//         const { url, headers } = getConnectionDetails();
-
-//         return new driver.DriverRemoteConnection(
-//             url, 
-//             { 
-//                 mimeType: 'application/vnd.gremlin-v2.0+json', 
-//                 pingEnabled: false,
-//                 headers: headers 
-//             });       
-//     };
-
-//     const createGraphTraversalSource = (conn: driver.DriverRemoteConnection) => {
-//         return gprocess.traversal().withRemote(conn);
-//     };
-
-//     if (conn == null){
-//         conn = createRemoteConnection();
-//         g = createGraphTraversalSource(conn);
-//     }
-
-// return (
-//     
-//        
-
-
-//     doQuery);
-// }
