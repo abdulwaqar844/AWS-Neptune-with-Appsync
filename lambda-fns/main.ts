@@ -9,21 +9,21 @@ type AppSyncEvent = {
   },
   arguments: {
     person: Person
-    PersonID: string
-    Person1ID: string
-    Person2ID: string
+    PersonName: string
+    Person1Name: string
+    Person2Name: string
   }
 }
 exports.handler = async (event: AppSyncEvent) => {
   switch (event.info.fieldName) {
     case "addFriend":
-      return await addFriend(event.arguments.Person1ID, event.arguments.Person2ID);
+      return await addFriend(event.arguments.Person1Name, event.arguments.Person2Name);
     case "ListPersons":
       return await ListPersons();
     case "createPerson":
       return await createPerson(event.arguments.person);
     case "PersonFriends":
-      return await listFriends(event.arguments.PersonID);
+      return await listFriends(event.arguments.PersonName);
     default:
       return null;
   }

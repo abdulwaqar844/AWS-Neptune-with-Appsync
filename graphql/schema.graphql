@@ -19,8 +19,8 @@ type Cuisine{
 }
 type Query{
 	ListPersons: [Person]
-	PersonFriends(PersonID: String!	): [Person]
-	FriendofFriends(		PersonID: String!	): [Person]
+	PersonFriends(PersonName: String!	): [Person]
+	FriendofFriends(PersonID: String!	): [Person]
 	RestaurantWithSpecificCuisine(PersonID: String!,CuisineName:String!	): Restaurant!
     RestaurantNearMeHiehestRated(	PersonID: String!): [Restaurant!]
     LatestReview(RestaurantID:String):[Review]
@@ -40,7 +40,7 @@ input ReviewInput {
 }
 
 type Mutation {
-addFriend(Person1ID:String , Person2ID:String):String
+addFriend(Person1Name:String , Person2Name:String):String
   createPerson(person: PersonInput!): Person
   createReview(review:ReviewInput!):Review
 
