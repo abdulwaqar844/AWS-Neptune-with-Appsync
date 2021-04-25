@@ -1,5 +1,6 @@
 import addFriend from './addFriend';
 import createPerson from './createPerson';
+import friendOfFriends from './friendOfFriends';
 import listFriends from './listFriends';
 import ListPersons from './ListPersons';
 import Person from './Person';
@@ -24,6 +25,8 @@ exports.handler = async (event: AppSyncEvent) => {
       return await createPerson(event.arguments.person);
     case "PersonFriends":
       return await listFriends(event.arguments.PersonName);
+    case "FriendofFriends":
+      return await friendOfFriends(event.arguments.PersonName);
     default:
       return null;
   }

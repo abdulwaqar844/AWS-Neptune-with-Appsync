@@ -82,6 +82,11 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       typeName: "Query",
       fieldName: "PersonFriends"
     })
+
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "FriendofFriends"
+    })
     lambdaDs.createResolver({
       typeName: "Query",
       fieldName: "ListPersons"

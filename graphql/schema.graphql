@@ -20,7 +20,7 @@ type Cuisine{
 type Query{
 	ListPersons: [Person]
 	PersonFriends(PersonName: String!	): [Person]
-	FriendofFriends(PersonID: String!	): [Person]
+	FriendofFriends(PersonName: String!	): [Person]
 	RestaurantWithSpecificCuisine(PersonID: String!,CuisineName:String!	): Restaurant!
     RestaurantNearMeHiehestRated(	PersonID: String!): [Restaurant!]
     LatestReview(RestaurantID:String):[Review]
