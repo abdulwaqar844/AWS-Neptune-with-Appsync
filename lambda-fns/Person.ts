@@ -1,8 +1,7 @@
 type Person = {
- id:string
-	PersonName: String;
+  PersonID: String;
+  PersonName: String;
   Email: String;
-  	PersonID: String;
-	PersonCity: String;
-  }
-  export default Person;
+  PersonCity: String;
+}
+export default Person;

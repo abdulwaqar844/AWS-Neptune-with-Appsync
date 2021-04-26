@@ -3,12 +3,12 @@ const DriverRemoteConnection = gremlin.driver.DriverRemoteConnection
 const Graph = gremlin.structure.Graph
 var uri = process.env.NEPTUNE_ENDPOINT
 
-const listFriends = async (Name:string) => {
+const listFriends = async (PersonID:string) => {
   let dc = new DriverRemoteConnection(`wss://${uri}:8182/gremlin`, {})
   const graph = new Graph()
     const g = graph.traversal().withRemote(dc)
     try {
-      let data = await g.V().has('person','PersonName',Name).out('friend').toList()
+      let data = await g.V().has('person','PersonID',PersonID).out('friend').toList()
       let friends = Array()
       for (const v of data) {
         const _properties = await g.V(v.id).properties().toList()
@@ -16,7 +16,6 @@ const listFriends = async (Name:string) => {
           acc[next.label] = next.value
           return acc
         }, {})
-        friend.id = v.id
         friends.push(friend)
       }
                 

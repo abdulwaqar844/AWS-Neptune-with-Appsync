@@ -9,6 +9,7 @@ const ListPersons = async () => {
     const g = graph.traversal().withRemote(dc)
     try {
       let data = await g.V().hasLabel('person').toList()
+
       let persons = Array()
       for (const v of data) {
         const _properties = await g.V(v.id).properties().toList()
@@ -16,7 +17,6 @@ const ListPersons = async () => {
           acc[next.label] = next.value
           return acc
         }, {})
-        person.id = v.id
         persons.push(person)
       }
                 

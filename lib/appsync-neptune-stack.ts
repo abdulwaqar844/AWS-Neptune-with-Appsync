@@ -93,6 +93,18 @@ export class AppsyncNeptuneStack extends cdk.Stack {
     })
     lambdaDs.createResolver({
       typeName: "Mutation",
+      fieldName: "addCuisine"
+    })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "createReview"
+    })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "addRestaurant"
+    })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
       fieldName: "createPerson"
     })
     lambdaDs.createResolver({

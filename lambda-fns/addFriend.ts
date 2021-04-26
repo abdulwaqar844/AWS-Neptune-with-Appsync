@@ -5,7 +5,7 @@ declare var process: {
         NEPTUNE_ENDPOINT: string
     }
 }
-export default async function addFriend(Person1Name: string, Person2Name: string) {
+export default async function addFriend(Person1ID: string, Person2ID: string) {
     let conn: driver.DriverRemoteConnection;
     let g: gprocess.GraphTraversalSource;
     const getConnectionDetails = () => {
@@ -31,8 +31,8 @@ export default async function addFriend(Person1Name: string, Person2Name: string
     }
     const __ = gprocess.statics;
 
-    let result = await g.V().has('person', 'PersonName', Person1Name).addE('friend').
-        to(__.V().has('person', 'PersonName', Person2Name)).toList();
+    let result = await g.V().has('person', 'PersonID', Person1ID).addE('friend').
+        to(__.V().has('person', 'PersonID', Person2ID)).toList();
     return 'Addes Sucessfully';
 
 

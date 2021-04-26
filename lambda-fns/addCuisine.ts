@@ -1,21 +1,21 @@
 import { driver, process as gprocess } from 'gremlin';
-import Person from './Person';
+const __ = gprocess.statics;
+
+import CuisineInput from './Cuisine'
 declare var process: {
     env: {
         NEPTUNE_ENDPOINT: string
     }
 }
-export default async function createPerson(person: Person) {
+export default async function addFriend(cuisine: CuisineInput) {
     let conn: driver.DriverRemoteConnection;
     let g: gprocess.GraphTraversalSource;
     const getConnectionDetails = () => {
         const database_url = 'wss://' + process.env.NEPTUNE_ENDPOINT + ':8182/gremlin';
         return { url: database_url, headers: {} };
     };
-
     const createRemoteConnection = () => {
         const { url, headers } = getConnectionDetails();
-
         return new driver.DriverRemoteConnection(
             url,
             {
@@ -24,7 +24,6 @@ export default async function createPerson(person: Person) {
                 headers: headers
             });
     };
-
     const createGraphTraversalSource = (conn: driver.DriverRemoteConnection) => {
         return gprocess.traversal().withRemote(conn);
     };
@@ -32,17 +31,17 @@ export default async function createPerson(person: Person) {
         conn = createRemoteConnection();
         g = createGraphTraversalSource(conn);
     }
-    console.log(person)
-    let result = await g.addV('person').
-    property('PersonID', person.PersonID).
-    property('PersonName', person.PersonName).
-    property('Email', person.Email).
-    property('PersonCity', person.PersonCity).
-    next();
-    return person
-    
+    console.log(cuisine)
+    let result = await g.addE('serves').from_(__.V().
+        has('restaurant', 'restaurantID', cuisine.RestaurantID)).
+        to(__.addV('cuisine').property('cuisineID', cuisine.id).
+            property('cuisineName', cuisine.CuisineName)).next()
+    console.log(result)
+    return "cuisine added successfully";
 
-    
+
+
+
 
 
 
