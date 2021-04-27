@@ -29,7 +29,6 @@ export default async function addFriend(restaurant: RestaurantInput) {
         conn = createRemoteConnection();
         g = createGraphTraversalSource(conn);
     }
-    console.log(restaurant)
     let data = await g.addV('restaurant').
         property('restaurantID', restaurant.RestaurantID).
         property('restaurantName', restaurant.RestaurantName).

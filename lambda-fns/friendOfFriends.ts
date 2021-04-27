@@ -16,7 +16,6 @@ const friendOfFriends = async (PersonID:string) => {
           acc[next.label] = next.value
           return acc
         }, {})
-        console.log(friend)
         friendOfFriends.push(friend)
       }
       dc.close()
