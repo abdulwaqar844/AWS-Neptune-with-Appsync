@@ -48,7 +48,7 @@ input RestaurantInput{
 	RestaurantCity: String!
 }
 input CuisineInput{
-CuisineID:ID!
+	CuisineID:ID!
 	CuisineName: String!
 	RestaurantID:String!
 }

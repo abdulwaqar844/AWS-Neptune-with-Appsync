@@ -1,5 +1,5 @@
 type Cuisine = {
-    id: string
+    CuisineID: string
     CuisineName: String;
     RestaurantID:string;
 }

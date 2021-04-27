@@ -34,7 +34,7 @@ export default async function addFriend(cuisine: CuisineInput) {
     console.log(cuisine)
     let result = await g.addE('serves').from_(__.V().
         has('restaurant', 'restaurantID', cuisine.RestaurantID)).
-        to(__.addV('cuisine').property('cuisineID', cuisine.id).
+        to(__.addV('cuisine').property('cuisineID', cuisine.CuisineID).
             property('cuisineName', cuisine.CuisineName)).next()
     console.log(result)
     return "cuisine added successfully";

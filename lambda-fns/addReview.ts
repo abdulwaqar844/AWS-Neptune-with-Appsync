@@ -33,13 +33,14 @@ export default async function addReview(reviewInput: ReviewInput) {
 
 
     let result = await g.addE('writes').from_(__.V().
-    has('student', 'name', reviewInput.PersonID)).
-    to(__.addV('Review').property('id', reviewInput.ReviewID).
+    has('person', 'PersonID', reviewInput.PersonID)).
+    to
+    (__.addV('Review').property('ReviewID', reviewInput.ReviewID).
         property('ReviewText', reviewInput.ReviewText).
         property('ReviewDate', reviewInput.ReviewDate).
         property('ReviewRating', reviewInput.ReviewRating)).
     addE('about').
-    from_(__.V().has('Review', 'id',reviewInput.ReviewID)).to(__.V().
+    from_(__.V().has('Review', 'ReviewID',reviewInput.ReviewID)).to(__.V().
         has('resturent', 'name', reviewInput.RestaurantID)).toList();
     return 'Review Added Sucessfully';
 
