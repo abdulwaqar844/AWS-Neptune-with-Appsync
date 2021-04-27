@@ -6,7 +6,7 @@ type Person{
 }
 type Review{
 	ReviewID:ID!
-	StarRating: String!
+	ReviewRating: String!
 	ReviewText: String!
 	ReviewDate: String!
 }
@@ -38,7 +38,7 @@ input ReviewInput {
 	ReviewID:ID!
 	PersonID:String!
 	RestaurantID:String!
-	StarRating: String!
+	ReviewRating: Int!
 	ReviewText: String!
 	ReviewDate: String!
 }

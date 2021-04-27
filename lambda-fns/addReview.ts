@@ -1,5 +1,5 @@
 import { driver, process as gprocess } from 'gremlin';
-import  ReviewInput  from './Review'
+import ReviewInput from './Review'
 declare var process: {
     env: {
         NEPTUNE_ENDPOINT: string
@@ -30,18 +30,20 @@ export default async function addReview(reviewInput: ReviewInput) {
         g = createGraphTraversalSource(conn);
     }
     const __ = gprocess.statics;
-
+    console.log(reviewInput)
 
     let result = await g.addE('writes').from_(__.V().
-    has('person', 'PersonID', reviewInput.PersonID)).
-    to
-    (__.addV('Review').property('ReviewID', reviewInput.ReviewID).
-        property('ReviewText', reviewInput.ReviewText).
-        property('ReviewDate', reviewInput.ReviewDate).
-        property('ReviewRating', reviewInput.ReviewRating)).
-    addE('about').
-    from_(__.V().has('Review', 'ReviewID',reviewInput.ReviewID)).to(__.V().
-        has('resturent', 'name', reviewInput.RestaurantID)).toList();
+        has('person', 'PersonID', reviewInput.PersonID)).
+        to
+        (__.addV('review').property('reviewID', reviewInput.ReviewID).
+            property('reviewText', reviewInput.ReviewText).
+            property('reviewDate', reviewInput.ReviewDate).
+            property('reviewRating', reviewInput.ReviewRating)).
+        addE('about').
+        from_(__.V().has('review', 'reviewID', reviewInput.ReviewID)).
+        to(__.V().has('restaurant', 'restaurantID', reviewInput.RestaurantID)).
+        toList();
+    console.log(result)
     return 'Review Added Sucessfully';
 
 

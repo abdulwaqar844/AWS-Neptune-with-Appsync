@@ -3,7 +3,7 @@ type ReviewInput = {
     RestaurantID: String;
     PersonID: String;
     ReviewText: String;
-    ReviewRating: string;
+    ReviewRating: Number;
     ReviewDate: String
 }
 export default ReviewInput
