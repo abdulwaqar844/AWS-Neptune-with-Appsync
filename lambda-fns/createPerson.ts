@@ -32,7 +32,6 @@ export default async function createPerson(person: Person) {
         conn = createRemoteConnection();
         g = createGraphTraversalSource(conn);
     }
-    console.log(person)
     let result = await g.addV('person').
     property('PersonID', person.PersonID).
     property('PersonName', person.PersonName).

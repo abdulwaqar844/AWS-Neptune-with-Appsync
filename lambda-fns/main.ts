@@ -10,7 +10,9 @@ import addReview from './addReview';
 import addCuisine from './addCuisine'
 import ReviewInput from './Review'
 import CuisineInput from './Cuisine'
-
+import latestReview from './latestReview';
+import HighRatedRestaurantWithCuisine from './HighRatedRestaurantWithCuisine';
+import TehHighRatedRestaurants from './HighRatedTenRestaurant'
 
 type AppSyncEvent = {
   info: {
@@ -24,6 +26,9 @@ type AppSyncEvent = {
     restaurant: RestaurantInput
     review: ReviewInput
     cuisine: CuisineInput
+    RestaurantID: string
+    PersonCity: string
+    CuisineInput: string
   }
 }
 exports.handler = async (event: AppSyncEvent) => {
@@ -43,7 +48,14 @@ exports.handler = async (event: AppSyncEvent) => {
     case "createReview":
       return await addReview(event.arguments.review);
     case "addCuisine":
-      return await addCuisine(event.arguments.cuisine)
+      return await addCuisine(event.arguments.cuisine);
+    case "LatestReview":
+      return await latestReview(event.arguments.RestaurantID)
+    case "RestaurantWithSpecificCuisine":
+      return await HighRatedRestaurantWithCuisine(event.arguments.PersonCity, event.arguments.CuisineInput)
+      case "RestaurantNearMeHiehestRated":
+        return await TehHighRatedRestaurants(event.arguments.PersonCity)
+
     default:
       return null;
   }

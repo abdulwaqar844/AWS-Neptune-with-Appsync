@@ -23,8 +23,8 @@ type Query{
 	ListPersons: [Person]
 	PersonFriends(PersonID: String!): [Person]
 	FriendofFriends(PersonID: String!): [Person]
-	RestaurantWithSpecificCuisine(PersonID: String!,CuisineName:String!	): Restaurant!
-    RestaurantNearMeHiehestRated(	PersonID: String!): [Restaurant!]
+	RestaurantWithSpecificCuisine(PersonCity: String!,CuisineName:String!	): Restaurant!
+    RestaurantNearMeHiehestRated(	PersonCity: String!): [Restaurant!]
     LatestReview(RestaurantID:String):[Review]
 }
 input PersonInput {
