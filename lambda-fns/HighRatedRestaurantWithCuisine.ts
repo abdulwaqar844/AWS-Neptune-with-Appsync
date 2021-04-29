@@ -5,15 +5,17 @@ var uri = process.env.NEPTUNE_ENDPOINT
 const __ = gremlin.process.statics;
 const { order: { desc } } = gremlin.process;
 
-const HighRatedRestaurantWithCuisine = async (City: string, Cuisne: string) => {
+const HighRatedRestaurantWithCuisine = async (City: string, Cuisine: string) => {
   let dc = new DriverRemoteConnection(`wss://${uri}:8182/gremlin`, {})
   const graph = new Graph()
   const g = graph.traversal().withRemote(dc)
   try {
+    console.log('City',City)
+    console.log("Cuisine",Cuisine)
     // let data = await g.V().hasLabel('person').toList()
     let result = await g.V().has('restaurant', 'restaurantCity', City).order().
       by(__.V().in_('about').values('reviewRating').mean(), desc).where(__.out('serves').
-      has('cuisineName', Cuisne))
+      has('cuisineName', Cuisine))
       .valueMap().toList();
       
     // let highRatedRestaurantWithCuisine = Array()

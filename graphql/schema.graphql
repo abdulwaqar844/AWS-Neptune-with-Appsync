@@ -11,9 +11,9 @@ type Review{
 	ReviewDate: String!
 }
 type Restaurant{
-	RestaurantID:ID!
-	RestaurantName: String!
-	RestaurantCity: String!
+	restaurantID:ID!
+	restaurantName: String!
+	restaurantCity: String!
 }
 type Cuisine{
 	CuisineID:ID
@@ -23,8 +23,8 @@ type Query{
 	ListPersons: [Person]
 	PersonFriends(PersonID: String!): [Person]
 	FriendofFriends(PersonID: String!): [Person]
-	RestaurantWithSpecificCuisine(PersonCity: String!,CuisineName:String!	): Restaurant!
-    RestaurantNearMeHiehestRated(	PersonCity: String!): [Restaurant!]
+	RestaurantWithSpecificCuisine(PersonCity: String!,CuisineName:String!): [Restaurant]
+    RestaurantNearMeHiehestRated(PersonCity: String!): [Restaurant!]
     LatestReview(RestaurantID:String):[Review]
 }
 input PersonInput {

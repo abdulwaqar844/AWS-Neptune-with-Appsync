@@ -28,7 +28,7 @@ type AppSyncEvent = {
     cuisine: CuisineInput
     RestaurantID: string
     PersonCity: string
-    CuisineInput: string
+    CuisineName: string
   }
 }
 exports.handler = async (event: AppSyncEvent) => {
@@ -52,7 +52,7 @@ exports.handler = async (event: AppSyncEvent) => {
     case "LatestReview":
       return await latestReview(event.arguments.RestaurantID)
     case "RestaurantWithSpecificCuisine":
-      return await HighRatedRestaurantWithCuisine(event.arguments.PersonCity, event.arguments.CuisineInput)
+      return await HighRatedRestaurantWithCuisine(event.arguments.PersonCity, event.arguments.CuisineName)
       case "RestaurantNearMeHiehestRated":
         return await TehHighRatedRestaurants(event.arguments.PersonCity)
 
