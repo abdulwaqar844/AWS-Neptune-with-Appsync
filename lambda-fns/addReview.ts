@@ -30,7 +30,6 @@ export default async function addReview(reviewInput: ReviewInput) {
         g = createGraphTraversalSource(conn);
     }
     const __ = gprocess.statics;
-    console.log(reviewInput)
 
     let result = await g.addE('writes').from_(__.V().
         has('person', 'PersonID', reviewInput.PersonID)).
@@ -43,7 +42,6 @@ export default async function addReview(reviewInput: ReviewInput) {
         from_(__.V().has('review', 'reviewID', reviewInput.ReviewID)).
         to(__.V().has('restaurant', 'restaurantID', reviewInput.RestaurantID)).
         toList();
-    console.log(result)
     return 'Review Added Sucessfully';
 
 

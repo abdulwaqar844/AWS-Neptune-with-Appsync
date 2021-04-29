@@ -77,7 +77,10 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       }
     });
     const lambdaDs = api.addLambdaDataSource('lambdaDatasource', lambdaFn);
-
+    lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "LatestReview"
+    })
     lambdaDs.createResolver({
       typeName: "Query",
       fieldName: "PersonFriends"
@@ -90,6 +93,14 @@ export class AppsyncNeptuneStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: "Query",
       fieldName: "ListPersons"
+    })
+    lambdaDs.createResolver({
+      typeName:"Query",
+      fieldName:"RestaurantWithSpecificCuisine"
+    })
+    lambdaDs.createResolver({
+      typeName:"Query",
+      fieldName:"RestaurantNearMeHiehestRated"
     })
     lambdaDs.createResolver({
       typeName: "Mutation",
