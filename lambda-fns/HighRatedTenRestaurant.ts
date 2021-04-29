@@ -10,10 +10,8 @@ const tenhighRatedRestaurants = async (City:string) => {
     const g = graph.traversal().withRemote(dc)
     try {
       console.log(City)
-      //let data = await g.V().hasLabel('person').toList()
 let result= await g.V().has('restaurant','restaurantCity',City).limit(10) .where(__.inE('about')). 
 order().by(__.in_( 'about').values('reviewRating').mean()).
-  //  valueMap('restaurantName', 'restaurantCity','restaurantID').
    toList();
 
       let tenhighRatedRestaurant = Array()
