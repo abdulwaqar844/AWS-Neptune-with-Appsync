@@ -58,7 +58,7 @@ export class AppsyncNeptuneStack extends cdk.Stack {
     const neptuneInstance = new neptune.CfnDBInstance(this, "myinstance", {
       dbInstanceClass: "db.t3.medium",
       dbClusterIdentifier: neptuneCluster.dbClusterIdentifier,
-      availabilityZone: vpc.availabilityZones[0],
+      availabilityZone: vpc.availabilityZones[1],
     });
     neptuneInstance.addDependsOn(neptuneCluster);
     // add this code after the VPC code
@@ -106,6 +106,11 @@ export class AppsyncNeptuneStack extends cdk.Stack {
       typeName: "Mutation",
       fieldName: "addCuisine"
     })
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "addRating"
+    })
+    
     lambdaDs.createResolver({
       typeName: "Mutation",
       fieldName: "createReview"
