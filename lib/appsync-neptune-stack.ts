@@ -1,30 +1,30 @@
-import * as cdk from '@aws-cdk/core';
-import * as appsync from '@aws-cdk/aws-appsync';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as neptune from '@aws-cdk/aws-neptune';
+import * as cdk from "@aws-cdk/core";
+import * as appsync from "@aws-cdk/aws-appsync";
+import * as lambda from "@aws-cdk/aws-lambda";
+import * as ec2 from "@aws-cdk/aws-ec2";
+import * as neptune from "@aws-cdk/aws-neptune";
 export class AppsyncNeptuneStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const api = new appsync.GraphqlApi(this, 'Api', {
-      name: 'NeptuneAPI',
-      schema: appsync.Schema.fromAsset('graphql/schema.graphql'),
+    const api = new appsync.GraphqlApi(this, "Api", {
+      name: "NeptuneAPI",
+      schema: appsync.Schema.fromAsset("graphql/schema.graphql"),
       authorizationConfig: {
         defaultAuthorization: {
-          authorizationType: appsync.AuthorizationType.API_KEY
+          authorizationType: appsync.AuthorizationType.API_KEY,
         },
       },
-    })
+    });
     // The code that defines your stack goes here
     const vpc = new ec2.Vpc(this, "Vpc", {
       subnetConfiguration: [
         {
           cidrMask: 24, // Creates a size /24 IPv4 subnet (a range of 256 private IP addresses) in the VPC
-          name: 'Ingress',
+          name: "Ingress",
           subnetType: ec2.SubnetType.ISOLATED,
-        }
-      ]
+        },
+      ],
     });
     // Create a security group and subnetgroup to ensure lambda and neptune cluster deploy on the same vpc
     const sg1 = new ec2.SecurityGroup(this, "mySecurityGroup1", {
@@ -64,72 +64,74 @@ export class AppsyncNeptuneStack extends cdk.Stack {
     // add this code after the VPC code
     const lambdaFn = new lambda.Function(this, "Lambda", {
       runtime: lambda.Runtime.NODEJS_10_X,
-      handler: 'main.handler',
-      code: lambda.Code.fromAsset('lambda-fns'),
+      handler: "main.handler",
+      code: lambda.Code.fromAsset("lambda-fns"),
       vpc: vpc,
       securityGroups: [sg1],
       environment: {
-        NEPTUNE_ENDPOINT: neptuneCluster.attrEndpoint
+        NEPTUNE_ENDPOINT: neptuneCluster.attrEndpoint,
       },
-      vpcSubnets:
-      {
-        subnetType: ec2.SubnetType.ISOLATED
-      }
+      vpcSubnets: {
+        subnetType: ec2.SubnetType.ISOLATED,
+      },
     });
-    const lambdaDs = api.addLambdaDataSource('lambdaDatasource', lambdaFn);
+    const lambdaDs = api.addLambdaDataSource("lambdaDatasource", lambdaFn);
     lambdaDs.createResolver({
       typeName: "Query",
-      fieldName: "LatestReview"
-    })
+      fieldName: "LatestReview",
+    });
+     lambdaDs.createResolver({
+      typeName: "Query",
+      fieldName: "BestRestaurantBasedOnReviewRating",
+    });
     lambdaDs.createResolver({
       typeName: "Query",
-      fieldName: "PersonFriends"
-    })
+      fieldName: "PersonFriends",
+    });
 
     lambdaDs.createResolver({
       typeName: "Query",
-      fieldName: "FriendofFriends"
-    })
+      fieldName: "FriendofFriends",
+    });
     lambdaDs.createResolver({
       typeName: "Query",
-      fieldName: "ListPersons"
-    })
+      fieldName: "ListPersons",
+    });
     lambdaDs.createResolver({
-      typeName:"Query",
-      fieldName:"RestaurantWithSpecificCuisine"
-    })
+      typeName: "Query",
+      fieldName: "RestaurantWithSpecificCuisine",
+    });
     lambdaDs.createResolver({
-      typeName:"Query",
-      fieldName:"RestaurantNearMeHiehestRated"
-    })
-    lambdaDs.createResolver({
-      typeName: "Mutation",
-      fieldName: "addCuisine"
-    })
+      typeName: "Query",
+      fieldName: "RestaurantNearMeHiehestRated",
+    });
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "addRating"
-    })
-    
+      fieldName: "addCuisine",
+    });
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "createReview"
-    })
+      fieldName: "addRating",
+    });
+
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "addRestaurant"
-    })
+      fieldName: "createReview",
+    });
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "createPerson"
-    })
+      fieldName: "addRestaurant",
+    });
     lambdaDs.createResolver({
       typeName: "Mutation",
-      fieldName: "addFriend"
-    })
+      fieldName: "createPerson",
+    });
+    lambdaDs.createResolver({
+      typeName: "Mutation",
+      fieldName: "addFriend",
+    });
     new cdk.CfnOutput(this, "Neptune Endpoint", {
-      value: neptuneCluster.attrEndpoint
-    }
-    )
+      value: neptuneCluster.attrEndpoint,
+    });
   }
 }

@@ -40,7 +40,9 @@ export default async function addRating(ratingInput: RatingInput) {
         .property("ratingDate", ratingInput.ratingdate)
     )
     .addE("about")
+    .from_(__.V().has("rating", "ratingID", ratingInput.ratingID))
     .to(__.V().has("review", "reviewID", ratingInput.ReviewID))
     .toList();
+  console.log(result);
   return "Rating Added Sucessfully";
 }

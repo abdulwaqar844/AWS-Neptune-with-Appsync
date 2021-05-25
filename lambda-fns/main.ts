@@ -15,6 +15,7 @@ import latestReview from "./latestReview";
 import HighRatedRestaurantWithCuisine from "./HighRatedRestaurantWithCuisine";
 import TehHighRatedRestaurants from "./HighRatedTenRestaurant";
 import Rating from "./Rating";
+import BestRestaurantBasedOnReviewRating from "./BestRestaurantBasedOnRating";
 
 type AppSyncEvent = {
   info: {
@@ -66,7 +67,8 @@ exports.handler = async (event: AppSyncEvent) => {
       );
     case "RestaurantNearMeHiehestRated":
       return await TehHighRatedRestaurants(event.arguments.PersonCity);
-
+      case "BestRestaurantBasedOnReviewRating":
+        return await BestRestaurantBasedOnReviewRating(event.arguments.PersonID);
     default:
       return null;
   }
